@@ -5,7 +5,6 @@
   font-weight: normal;
   font-style: normal;
 }
-
 :root {
   --bg:#55A586;
   --text: #1C140C;
@@ -13,14 +12,15 @@
   --cream: #F5DBC8;
   --lightblue: #ACBFBD;
   --blue: #3848A0;
+  --green: #538C35;
+  --yellow: #dda403;
 }
-*, *::before, *::after {
-  box-sizing: border-box;
-}
+*, *::before, *::after { box-sizing: border-box; }
 body {
   background-color: var(--bg);
   color: var(--text);
   font-family: "Open Sans", system-ui;
+  min-height: 100vh;
   letter-spacing: 0.06em;
   margin: 0 auto;
 }
@@ -57,6 +57,10 @@ nav ul li a.navlink {
   text-decoration: none;
   text-transform: uppercase;
 }
+.nav-logo path { transition: fill .2s linear; }
+.nav-logo:hover path {
+  fill: var(--cream);
+}
 .navlink::after {
   background-color: var(--cream);
   content: "";
@@ -69,44 +73,199 @@ nav ul li a.navlink {
   height: 3px;
   width: 100%;
 }
-.navlink:hover::after {
+.navlink:hover::after, .navlink:focus::after {
   transform: scaleX(1);
 }
 .content-container {
   margin-inline: auto;
   width: 90vw;
 }
-
-header {
-  background: linear-gradient(0deg, #ACBFBD 0%, #ACBFBD 40%, transparent 40%);
-  display: flex;
-  justify-content: center;
-  gap: 3rem;
-  padding: 6rem 2rem;
-}
-button {
+button, .button {
   background-color: var(--pink);
   border: 0;
   border: 2px solid;
   border-radius: 10px;
+  color: var(--text);
+  cursor: pointer;
+  display: inline-block;
+  filter: drop-shadow(2px 4px 0 var(--text));
   font-family: "ftb", "Open Sans", sans-serif, system-ui;
-  font-size: 1rem;
+  font-size: 1.2rem;
   letter-spacing: 0.06em;
-  padding: .5rem 2rem;
+  padding: 1rem 2.5rem;
+  text-decoration: none;
   text-transform: uppercase;
+  transition: all .2s;
 }
-.latagato {
+button:hover, .button:hover, button:focus, .button:focus {
+  background-color: var(--yellow);
+  filter: drop-shadow(1px 2px 0 var(--text));
+  transform: translate(1px, 2px);
+}
+
+footer {
+  background-color: var(--green);
+  text-align: center;
+  padding: 2rem;
+}
+footer p {
+  background-color: var(--yellow);
+  font-weight: 600;
+  margin: 1rem auto;
+  padding: 0 .5rem;
+  width: fit-content;
+}
+footer p a {
+  color: var(--text);
+}
+footer p a:hover, footer p a:focus {
+  color: var(--blue);
+}
+.social-list {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  padding: 0;
+}
+.social-list li {
+  list-style: none;
+}
+.social-list li a svg {
+  color: var(--text);
+  width: 30px;
+}
+.social-list li a:hover, .social-list li a:focus  {
+  background-color: var(--yellow);
+}
+
+
+
+header {
+  background: linear-gradient(0deg, #ACBFBD 0%, #ACBFBD 43%, transparent 43%);
+  min-height: 60vh;
+  padding: 7rem 2rem 2rem;
+  timeline-scope: --lata;
+}
+
+
+/* Lata */
+.header-wrapper {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 3rem;
+}
+.lata-container p {
+  font-size: 1.1rem;
+  margin-block-end: 2rem;
+  max-width: 50ch;;
+}
+.lata {
+  filter: drop-shadow(-18px 20px 0px #8fa6a2);
   object-fit: cover;
   object-position: 0 0;
   height: 252px;
   width: 444px;
+
+  animation: lataGato steps(6) both;
+  animation-timeline: --lata;
+}
+
+@keyframes lataGato {
+  to { object-position: 0 -1511px; }
+}
+.scroll-lata {
+  background-color: #8ea6a2;
+  scrollbar-color: #8ea6a2 var(--lightblue);
+  overflow-x: scroll;
+  margin: 4rem auto;
+  max-width: 520px;
+  padding: 0 1rem;
+
+  scroll-timeline: --lata inline;
+}
+.scroll-lata p {
+  white-space: nowrap;
 }
 
 
-.parallax {
-  
+
+/* Pesca */
+#pesca {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  mix-blend-mode: soft-light;
+  position: fixed;
+  top: 0;
+  width: 50px;
+  z-index: 1;
+}
+#cana, #pez { height: 56px;}
+#hilo {
+  height: 100%;
+  width: 50px;
+  transform-origin: top center;
+  animation: pescaAnim linear both reverse;
+  animation-timeline: scroll(root);
+  animation-range: 100px 100%;
+}
+@keyframes pescaAnim {
+  from { height: 0; }
+  to { height: 100%; }
 }
 
+/* Parallax */
+#waves {
+  transform: translateX(-8px);
+  animation: waves both;
+  animation-timeline: view();
+  animation-range: contain;
+}
+@keyframes waves {
+  to { transform: translateX(8px); }  
+}
+
+text, .text, #fishessm, #wavessm, #rama1, #rama2, #plant1, #plant2, #flower {
+  animation: moveUp both;
+  animation-timeline: view();
+}
+@keyframes moveUp {
+  from { transform: translateY(var(--offset)); opacity: 0; }  
+  to { transform: opacity: 1; }  
+}
+.text { --offset: 10vh; }
+#fishessm, #wavessm, .textand { --offset: 15vh; }
+text { --offset: 20vh; }
+#flower { --offset: 25vh; }
+#plant1, #plant2 { --offset: 30vh; }
+#rama1, #rama2 { --offset: 35vh; }
+
+
+#fish1 {  
+  animation: moveLeft both; 
+  animation-timeline: view();
+  animation-range: contain 100% cover 100%; 
+}
+#fish2 {  
+  animation: moveRight both; 
+  animation-timeline: view();
+  animation-range: contain 100% cover 100%; 
+}
+
+@keyframes moveLeft {
+  from {  transform: translateX(50%); opacity:0; }  
+  to {  transform: translateX(-25%); opacity:1; }  
+}
+@keyframes moveRight {
+  from {  transform: translateX(-50%); opacity:0; }  
+  to {  transform: translateX(25%); opacity:1; }  
+}
+
+
+
+/* Lisboa */
 .lisboa {
   background-color: var(--cream);
   margin-block-start: -5px;
@@ -121,35 +280,35 @@ button {
   max-width: 70ch;
 }
 .gallery {
-  margin: 0 auto;
-  max-width: 500px;
-  padding: 32px;
+  margin: 2rem auto;
+  max-width: 520px;
+  padding-block-start: 10px;
   position: relative;
-  width: 80vw;
-}
-.gallery-progress {
-  background-color: var(--lightblue);
-  border-radius: 7px;
-  height: 14px;
-  margin: 0 auto;
-  max-width: 300px;
-  position: absolute;
-  inset: 16px 0;
   width: 80vw;
 }
 
 .gallery-scroll-container {
   display: flex;
-  flex-direction: row;
-  scroll-snap-type: x mandatory;
+  gap: 20px;
   overflow-x: scroll;
+  scrollbar-color: #97adaa #1c140c;
+  padding: 20px;
+  scroll-snap-type: x mandatory;
+  width: 520px;
+  
+  animation: bg steps(1);
+  scroll-timeline: --scroller inline;
+  animation-timeline: --scroller;
+}
+@keyframes bg {
+  0%, 33.3% { background: #DE010A; }
+  33.3%, 66.6% { background: #349674;}
+  66.6%, 100% { background: #DDA403; }
 }
 
 .gallery img {
   flex: 0 0 100%;
-  height: 300px;
   scroll-snap-align: center;
-  width: 100%;
 
   animation: allIn linear both;
   animation-timeline: view(inline);
@@ -158,36 +317,56 @@ button {
 @keyframes allIn {
   entry 0% {
     opacity: 0;
-    clip-path: inset(50% 0% 50% 0%);
+    clip-path: inset(80% 50% 80% 50%);
+  }
+  entry 90% {
+      opacity: 1;
+      clip-path: inset(0% 0% 0% 0%);
+  }
+  exit 10% {
+      opacity: 1;
+      clip-path: inset(0% 0% 0% 0%);
+  }
+  exit 100% {
+      opacity: 0;
+      clip-path: inset(80% 50% 80% 50%);
+  } 
 }
-entry 90% {
-    opacity: 1;
-    clip-path: inset(0% 0% 0% 0%);
+
+.gallery-progress {
+  background-color: #ACBFBD;
+  position: absolute;
+  inset: 0;
+  transform-origin: 0 0;
+  transform: scaleX(calc(1 / 3));
+  height: 10px;
+  width: 100%;
+  
+  animation: progressBar linear;
+  animation-timeline: --scroller;
 }
-exit 10% {
-    opacity: 1;
-    clip-path: inset(0% 0% 0% 0%);
-}
-exit 100% {
-    opacity: 0;
-    clip-path: inset(50% 0% 50% 0%);
-} 
+@keyframes progressBar {
+  to { transform: scaleX(1) }
 }
 
 
+
+
+/* Porto */
 .porto {
   background-color: var(--blue);
   color: var(--cream);
   margin-block-start: -5px;
   padding: 32px;
   text-align: center;
+  timeline-scope: --uno, --dos, --tres, --cuatro;
 }
 
 .porto p {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 500;
   letter-spacing: 0.03em;
-  max-width: 40ch;
+  max-width: 43ch;
 }
 
 .flex-wrapper {
@@ -196,19 +375,75 @@ exit 100% {
   gap: 3rem;
 }
 
-.vertical-gallery {
+.vertical-scroll-container {
+  align-items: center;
   display: flex;
   flex-direction: column;
   flex: 1 1 50%;
-  gap: 1rem;
+  gap: 6rem 0;
+  min-width: 400px;
+  overflow-y: scroll;
+  scrollbar-color: #3848a0 #1b2767;
+  scroll-snap-type: y mandatory;  
+  padding: 200px 20px;
+  height: 400px;
 }
-.vertical-text {
-  flex: 1 1 50%;
-  text-align: left;
+.vertical-scroll-container img {
+  scroll-snap-align: center;
+  width: 400px;
+
+  animation: slideInOut;
+  animation-timeline: view();
 }
 
-.vertical-gallery img {
-  margin: 0 auto;
-  max-width: 400px;
-  width: 100%;
+/* target range in keyframes */
+@keyframes slideInOut {
+  entry 0% {
+    transform: scale(.8) translateY(100px); 
+    opacity: 0;
+  }
+  entry 100% { 
+    transform: scale(1) translateY(0); 
+    opacity: 1;
+  }
+  exit 0% {
+    transform: scale(1) translateY(0); 
+    opacity: 1;    
+  }
+  exit 100% { 
+    transform: scale(.8) translateY(-100px); 
+    opacity: 0 
+  }
+}
+
+.vertical-text {
+  flex: 1 1 50%;
+  padding: 20px 0;
+  text-align: left;
+}
+.vertical-text p {
+  opacity: 0.2;
+  animation: light;
+}
+@keyframes light {
+  from { opacity: 0.2; }
+  to { opacity: 1}
+}
+
+/* view-timeline */
+.vertical-scroll-container img:nth-of-type(1) { view-timeline: --uno; }
+.vertical-scroll-container img:nth-of-type(2) { view-timeline: --dos; }
+.vertical-scroll-container img:nth-of-type(3) { view-timeline: --tres; }
+.vertical-scroll-container img:nth-of-type(4) { view-timeline: --cuatro; }
+
+.vertical-text p:nth-of-type(1) { animation-timeline: --uno; }
+.vertical-text p:nth-of-type(2) { animation-timeline: --dos; }
+.vertical-text p:nth-of-type(3) { animation-timeline: --tres; }
+.vertical-text p:nth-of-type(4) { animation-timeline: --cuatro; }
+
+
+@media screen and (prefers-reduce-motion: no-preference) {
+  @supports (animation-timeline: view()) { 
+    /* TBD :) */ 
+  } 
 }
